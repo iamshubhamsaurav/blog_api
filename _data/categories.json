@@ -1,0 +1,42 @@
+[
+  {
+    "createdAt": "2020-06-07T03:09:24.306Z",
+    "_id": "5edc5a6480f17403066664c1",
+    "title": "Poem",
+    "description": "An area for all the wonderful poem in the world to thrive in.",
+    "slug": "poem",
+    "__v": 0
+  },
+  {
+    "createdAt": "2020-06-07T03:09:24.306Z",
+    "_id": "5edc5a6480f17403066664c2",
+    "title": "Story",
+    "description": "An area for all the wonderful poem in the world to thrive in.",
+    "slug": "story",
+    "__v": 0
+  },
+  {
+    "createdAt": "2020-06-07T03:09:24.306Z",
+    "_id": "5edc5a6480f17403066664c3",
+    "title": "Politics",
+    "description": "An area for all the wonderful poem in the world to thrive in.",
+    "slug": "politics",
+    "__v": 0
+  },
+  {
+    "createdAt": "2020-06-07T03:09:24.306Z",
+    "_id": "5edc5a6480f17403066664c4",
+    "title": "Mythology",
+    "description": "An area for all the wonderful poem in the world to thrive in.",
+    "slug": "mythology",
+    "__v": 0
+  },
+  {
+    "createdAt": "2020-06-07T03:09:24.306Z",
+    "_id": "5edc5a6480f17403066664c5",
+    "title": "Prose",
+    "description": "An area for all the wonderful prose in the world to thrive in.",
+    "slug": "prose",
+    "__v": 0
+  }
+]
