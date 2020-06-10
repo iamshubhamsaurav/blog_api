@@ -1,4 +1,5 @@
 const Blog = require('../models/Blog');
+const Category = require('../models/Category');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -10,10 +11,31 @@ const AppError = require('../utils/appError');
 exports.getBlogs = catchAsync(async (req, res, next) => {
   // console.log(req.params.categoryId);
   if (req.params.categoryId) {
-    const blogs = await Blog.find({ category: req.params.categoryId });
+    const category = await Category.findById(req.params.categoryId);
+    if (!category) {
+      return next(
+        new AppError(
+          `Category with the Id: ${req.params.categoryId} doesnot exist`
+        )
+      );
+    }
+    const features = new APIFeatures(
+      Blog.find({ category: category._id }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const blogs = await features.query;
     res.status(200).json({ success: true, count: blogs.length, data: blogs });
   } else {
-    const blogs = await Blog.find();
+    const features = new APIFeatures(Blog.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const blogs = await features.query;
     res.status(200).json({ success: true, count: blogs.length, data: blogs });
   }
 });

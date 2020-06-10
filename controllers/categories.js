@@ -1,4 +1,6 @@
 const Category = require('../models/Category');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
 
 // @route       : GET /api/v1/categories
 // @desc        : Get all categories

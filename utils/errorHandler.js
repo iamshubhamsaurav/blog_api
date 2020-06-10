@@ -4,7 +4,6 @@ const sendDevelopmentError = (err, res) => {
   res.status(err.statusCode).json({
     message: err.name,
     status: err.status,
-    operational: err.isOperational,
     stack: err.stack,
     error: err,
   });
