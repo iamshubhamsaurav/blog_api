@@ -10,6 +10,7 @@ connectDB();
 
 const categoriesRoute = require('./routes/categories');
 const blogsRoute = require('./routes/blogs');
+const authRoute = require('./routes/auth');
 
 const app = express();
 
@@ -21,6 +22,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use('/api/v1/categories', categoriesRoute);
 app.use('/api/v1/blogs', blogsRoute);
+app.use('/api/v1/auth', authRoute);
 
 app.all('*', (req, res, next) => {
   return next(
