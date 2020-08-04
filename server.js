@@ -11,6 +11,7 @@ connectDB();
 const categoriesRoute = require('./routes/categories');
 const blogsRoute = require('./routes/blogs');
 const authRoute = require('./routes/auth');
+const userRoute = require('./routes/users');
 
 const app = express();
 
@@ -23,16 +24,15 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api/v1/categories', categoriesRoute);
 app.use('/api/v1/blogs', blogsRoute);
 app.use('/api/v1/auth', authRoute);
+app.use('/api/v1/users', userRoute);
 
 app.all('*', (req, res, next) => {
   return next(
     new AppError(`Resource ${req.originalUrl} not found on the server`, 404)
   );
-  // res.status(404).json({ success: false, message: 'Route Not Found' });
 });
 
 app.use(errorHandler);
 
 const PORT = process.env.PORT;
-// const PORT = 8000;
 app.listen(PORT, console.log(`Server running on port: ${PORT}`.yellow.bold));
