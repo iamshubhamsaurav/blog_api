@@ -6,7 +6,7 @@ const colors = require('colors');
 //Models
 const Blog = require('./models/Blog');
 const Category = require('./models/Category');
-const User = require('../models/User');
+const User = require('./models/User');
 
 dotenv.config({ path: './config/config.env' });
 
