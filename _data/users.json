@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Admin",
+    "email": "admin@gmail.com",
+    "role": "admin",
+    "password": "123456",
+    "passwordConfirm": "123456"
+  },
+  {
+    "name": "User",
+    "email": "user@gmail.com",
+    "role": "user",
+    "password": "123456",
+    "passwordConfirm": "123456"
+  },
+  {
+    "name": "Shubham",
+    "email": "shubham@gmail.com",
+    "role": "user",
+    "password": "123456",
+    "passwordConfirm": "123456"
+  },
+  {
+    "name": "Saurav",
+    "email": "saurav@gmail.com",
+    "role": "user",
+    "password": "123456",
+    "passwordConfirm": "123456"
+  }
+]
