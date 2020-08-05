@@ -1,4 +1,4 @@
-const { promisify } = require('utils');
+// const { promisify } = require('utils');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const jsonwebtoken = require('jsonwebtoken');
