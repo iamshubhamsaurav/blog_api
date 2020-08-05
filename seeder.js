@@ -31,6 +31,7 @@ const importData = async () => {
     console.log('Data Imported Succesfully'.green.inverse);
   } catch (error) {
     console.log('Error Importing Data'.red);
+    console.log(error);
   }
   process.exit();
 };
@@ -40,9 +41,10 @@ const destroyData = async () => {
     await Category.deleteMany();
     await Blog.deleteMany();
     await User.deleteMany();
-    console.log('Data Desroyed Succesfully'.green.inverse);
+    console.log('Data Destroyed Succesfully'.green.inverse);
   } catch (error) {
     console.log('Error Destroying Data'.red.inverse);
+    console.log(error);
   }
   process.exit();
 };
