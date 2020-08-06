@@ -10,7 +10,7 @@ exports.getUsers = catchAsync(async (req, res, next) => {
     .limitFields()
     .paginate();
   const users = await features.query;
-  res.status(200).json({ success: true, data: users });
+  res.status(200).json({ success: true, count: users.length, data: users });
 });
 
 exports.getAdmins = catchAsync(async (req, res, next) => {

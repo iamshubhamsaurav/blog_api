@@ -74,6 +74,7 @@ const showUsers = async () => {
     console.log(`Error Showing Users`.red.inverse);
     console.log(error);
   }
+  process.exit();
 };
 
 const showCategories = async () => {
@@ -84,6 +85,7 @@ const showCategories = async () => {
     console.log(`Error Showing Categories`.red.inverse);
     console.log(error);
   }
+  process.exit();
 };
 
 const showBlogs = async () => {
@@ -94,6 +96,7 @@ const showBlogs = async () => {
     console.log(`Error Showing Blogs`.red.inverse);
     console.log(error);
   }
+  process.exit();
 };
 
 if (process.argv[2] === '-i') {

@@ -4,6 +4,7 @@ const colors = require('colors');
 const morgan = require('morgan');
 const connectDB = require('./config/db');
 const errorHandler = require('./utils/errorHandler');
+const AppError = require('./utils/appError');
 
 dotenv.config({ path: './config/config.env' });
 connectDB();

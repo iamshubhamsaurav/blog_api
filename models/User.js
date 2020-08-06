@@ -23,10 +23,12 @@ const userSchema = mongoose.Schema({
     type: String,
     minlength: [6, 'Password should be atleast 6 character long'],
     required: [true, 'Please provide a password'],
+    select: false,
   },
   passwordConfirm: {
     type: String,
     required: [true, 'Please provide your confirmation password'],
+    select: false,
     validate: {
       validator: function (value) {
         return this.password === value;
@@ -37,11 +39,11 @@ const userSchema = mongoose.Schema({
   passwordChangedAt: Date,
 });
 
-userSchema.pre('save', function (next) {
+userSchema.pre('save', async function (next) {
   // If password is not modified :- Jump to the next middleware
   if (!this.isModified('password')) return next();
   // If password is modified :- Hash the password and save it in DB
-  this.password = bcrypt.hash(this.password, 10);
+  this.password = await bcrypt.hash(this.password, 10);
   this.passwordConfirm = null;
   next();
 });
