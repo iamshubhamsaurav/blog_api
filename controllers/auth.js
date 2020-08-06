@@ -1,18 +1,18 @@
-// const { promisify } = require('utils');
+const { promisify } = require('util');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const jsonwebtoken = require('jsonwebtoken');
 const User = require('../models/User');
 
 const signToken = (id) => {
-  return jsonwebtoken.sign(id, process.env.JWT_SECRET, {
+  return jsonwebtoken.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
 
 const createSendToken = (user, statusCode, res) => {
-  const token = signToken(user._id);
-  res.statusCode(statusCode).json({ success: true, token, user });
+  const token = signToken(user.id);
+  res.status(statusCode).json({ success: true, token, user });
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
@@ -41,8 +41,8 @@ exports.login = catchAsync(async (req, res, next) => {
 exports.protect = catchAsync(async (req, res, next) => {
   let token;
   if (
-    req.headers.authorization ||
-    req.headers.authorization.startsWith('Bearer')
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer ')
   ) {
     token = req.headers.authorization.split(' ')[1];
   }
@@ -51,10 +51,13 @@ exports.protect = catchAsync(async (req, res, next) => {
     return next(new AppError('Token Doesnot Exist', 403));
   }
 
-  const decoded = await promisify(
-    jsonwebtoken.verify(token, process.env.JWT_SECRET)
-  );
+  // Not working
+  // const decoded = await promisify(
+  //   jsonwebtoken.verify(token, process.env.JWT_SECRET)
+  // );
+  //Using this line instead
 
+  const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET);
   const user = await User.findById(decoded.id);
 
   if (!user) {
@@ -75,9 +78,8 @@ exports.protect = catchAsync(async (req, res, next) => {
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return new AppError(
-        'You are not authorized to carry out this action',
-        403
+      return next(
+        new AppError('You are not authorized to carry out this action', 403)
       );
     }
     return next();

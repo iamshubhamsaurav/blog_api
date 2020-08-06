@@ -15,7 +15,7 @@ exports.getUsers = catchAsync(async (req, res, next) => {
 
 exports.getAdmins = catchAsync(async (req, res, next) => {
   const users = await User.find({ role: 'admin' });
-  res.status(200).json({ success: true, data: users });
+  res.status(200).json({ success: true, count: users.length, data: users });
 });
 
 exports.getUser = catchAsync(async (req, res, next) => {
