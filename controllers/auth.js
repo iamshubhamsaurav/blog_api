@@ -85,3 +85,30 @@ exports.restrictTo = (...roles) => {
     return next();
   };
 };
+
+exports.getMe = catchAsync(async (req, res, next) => {
+  const user = req.user;
+  res.status(200).json({ success: true, data: user });
+});
+
+exports.updateMe = catchAsync(async (req, res, next) => {
+  const fields = {
+    name: req.body.name,
+    email: req.body.email,
+  };
+  const user = req.user;
+  user.name = fields.name;
+  user.email = fields.email;
+  await user.save({ validateBeforeSave: false });
+});
+
+exports.updatePassword = catchAsync(async (req, res, next) => {
+  const user = req.user;
+  const password = req.body.password;
+  const passwordConfirm = req.body.passwordConfirm;
+
+  user.password = password;
+  user.passwordConfirm = passwordConfirm;
+
+  await user.save();
+});
