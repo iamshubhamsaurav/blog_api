@@ -92,14 +92,19 @@ exports.getMe = catchAsync(async (req, res, next) => {
 });
 
 exports.updateMe = catchAsync(async (req, res, next) => {
-  const fields = {
-    name: req.body.name,
-    email: req.body.email,
-  };
+  const name = req.body.name;
+  const email = req.body.email;
+
   const user = req.user;
-  user.name = fields.name;
-  user.email = fields.email;
+  user.name = name;
+  user.email = email;
+
+  if (!name || !email) {
+    return next(new AppError('Please enter name and email', 401));
+  }
+
   await user.save({ validateBeforeSave: false });
+  res.status(200).json({ success: true, data: user });
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
@@ -107,8 +112,19 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   const password = req.body.password;
   const passwordConfirm = req.body.passwordConfirm;
 
+  if (!password || !passwordConfirm) {
+    return next(new AppError('Please enter password and passwordConfirm', 401));
+  }
+
+  if (!user.correctPassword(password, user.password)) {
+    return next(new AppError('Invalid Credientials', 403));
+  }
+
   user.password = password;
   user.passwordConfirm = passwordConfirm;
+  user.passwordChangedAt = Date.now() - 1000;
 
   await user.save();
+
+  res.status(200).json({ success: true, data: user });
 });
