@@ -12,6 +12,10 @@ router.get('/me', authController.protect, authController.getMe);
 
 router.post('/updateme', authController.protect, authController.updateMe);
 
+router.get('/logout', authController.protect, authController.signup);
+
+router.post('/forgetpassword', authController.forgotPassword);
+
 router.post(
   '/updatepassword',
   authController.protect,
