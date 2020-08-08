@@ -15,6 +15,7 @@ router.post('/updateme', authController.protect, authController.updateMe);
 router.get('/logout', authController.protect, authController.signup);
 
 router.post('/forgetpassword', authController.forgotPassword);
+router.post('/resetpassword/:resettoken', authController.forgotPassword);
 
 router.post(
   '/updatepassword',

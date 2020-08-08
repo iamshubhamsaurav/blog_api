@@ -4,6 +4,7 @@ const AppError = require('../utils/appError');
 const jsonwebtoken = require('jsonwebtoken');
 const User = require('../models/User');
 const sendMail = require('../utils/sendEmail');
+const crypto = require('crypto');
 
 const signToken = (id) => {
   return jsonwebtoken.sign({ id }, process.env.JWT_SECRET, {
@@ -170,4 +171,28 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
     return next(new AppError('Error sending reset email', 500));
   }
+});
+
+exports.resetPassword = catchAsync(async (req, res, next) => {
+  const resetPasswordToken = crypto
+    .createHash('sha256')
+    .update(req.body.resettoken)
+    .digest('hex');
+
+  const user = await User.findOne({
+    resetPasswordToken,
+    passwordResetTokenExpiresIn: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return next(new AppError('Invalid Token', 401));
+  }
+
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  user.passwordResetToken = undefined;
+  user.passwordResetTokenExpiresIn = undefined;
+
+  await user.save();
+  createSendToken(user, 200, res);
 });
