@@ -6,6 +6,14 @@ const connectDB = require('./config/db');
 const errorHandler = require('./utils/errorHandler');
 const AppError = require('./utils/appError');
 
+//Security Modules
+const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
+const xssClean = require('xss-clean');
+const rateLimiter = require('express-rate-limit');
+const hpp = require('hpp');
+const cors = require('cors');
+
 dotenv.config({ path: './config/config.env' });
 connectDB();
 
@@ -21,6 +29,25 @@ app.use(express.json());
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
+// ****** Security Middlewares ********
+//Sanitize data
+app.use(mongoSanitize());
+//Set Security headers
+app.use(helmet());
+//Prevent XSS - Cross site scripting attack
+app.use(xssClean());
+// Limiting requests
+app.use(
+  rateLimiter({
+    windowMs: 10 * 60 * 1000, // 10 minutes
+    max: 100, //  Max 100 request in the set duration
+  })
+);
+// Prevent Http params pollution
+app.use(hpp());
+// Enable Cross Site Resource Sharing
+app.use(cors());
 
 app.use('/api/v1/categories', categoriesRoute);
 app.use('/api/v1/blogs', blogsRoute);
