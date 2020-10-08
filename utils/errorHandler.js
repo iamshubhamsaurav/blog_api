@@ -34,7 +34,7 @@ const handleDuplicationError = (error) => {
 };
 
 const handleValidationError = (error) => {
-  const errors = Object.values(error.errors).map((er) => el.message);
+  const errors = Object.values(error.errors).map((el) => el.message);
   const message = `Invalid Input Data: ${errors.join('. ')}`;
   return new AppError(message, 400);
 };
